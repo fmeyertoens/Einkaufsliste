@@ -7,20 +7,20 @@
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <home />
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from './components/HelloWorld.vue';
+import Home from './views/Home.vue';
 
 export default Vue.extend({
   name: 'App',
 
   components: {
-    HelloWorld,
+    Home,
   },
 
   data: () => ({
