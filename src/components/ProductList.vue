@@ -17,8 +17,11 @@
             `${getDateString(product.dueDate)}`
           }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-btn icon color="secondary">
+        <v-btn icon color="secondary" class="text--lighten-1">
           <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+        <v-btn icon color="error" class="text--lighten-2">
+          <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
     </v-list>
