@@ -20,14 +20,21 @@
         <v-btn icon color="secondary" class="text--lighten-1">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn
-          icon
-          color="error"
-          class="text--lighten-2"
-          @click="removeItem(product)"
-        >
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
+        <v-tooltip bottom open-delay="500">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="error"
+              class="text--lighten-2"
+              @click="removeItem(product)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ product.name }} entfernen</span>
+        </v-tooltip>
       </v-list-item>
     </v-list>
   </div>
