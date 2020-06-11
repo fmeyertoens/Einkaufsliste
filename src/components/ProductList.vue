@@ -20,7 +20,12 @@
         <v-btn icon color="secondary" class="text--lighten-1">
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
-        <v-btn icon color="error" class="text--lighten-2">
+        <v-btn
+          icon
+          color="error"
+          class="text--lighten-2"
+          @click="removeItem(product)"
+        >
           <v-icon>mdi-delete</v-icon>
         </v-btn>
       </v-list-item>
@@ -48,6 +53,9 @@ export default Vue.extend({
         second: 'numeric',
         hour12: false,
       }).format(date);
+    },
+    removeItem(product: Product) {
+      this.$emit('removeItem', product);
     },
   },
 });

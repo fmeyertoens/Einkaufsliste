@@ -1,6 +1,9 @@
 <template>
   <div>
-    <product-list :products="products"></product-list>
+    <product-list
+      :products="products"
+      @removeItem="removeProduct"
+    ></product-list>
     <v-btn class="mx-2" fab dark absolute right color="secondary">
       <v-icon dark>mdi-plus</v-icon>
     </v-btn>
@@ -43,6 +46,11 @@ export default Vue.extend({
         },
       ] as Product[],
     };
+  },
+  methods: {
+    removeProduct(product: Product) {
+      this.products = this.products.filter((p) => p.id !== product.id);
+    },
   },
 });
 </script>
