@@ -33,7 +33,7 @@ import Vue, { PropType } from 'vue';
 export default Vue.extend({
   props: {
     products: {
-      type: Object as PropType<Product[]>,
+      type: Array as PropType<Product[]>,
       required: true,
     },
   },
