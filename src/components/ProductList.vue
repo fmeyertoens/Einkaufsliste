@@ -6,6 +6,9 @@
         :key="product.id"
         :value="product.id"
       >
+        <v-list-item-action>
+          <v-checkbox v-model="product.done"></v-checkbox>
+        </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title
             >{{ product.count }} {{ product.name }}</v-list-item-title
@@ -14,9 +17,9 @@
             `${getDateString(product.dueDate)}`
           }}</v-list-item-subtitle>
         </v-list-item-content>
-        <v-list-item-action>
-          <v-checkbox v-model="product.done"></v-checkbox>
-        </v-list-item-action>
+        <v-btn icon color="secondary">
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
       </v-list-item>
     </v-list>
   </div>
