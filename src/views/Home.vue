@@ -1,5 +1,10 @@
 <template>
-  <product-list :products="products"></product-list>
+  <div>
+    <product-list :products="products"></product-list>
+    <v-btn class="mx-2" fab dark absolute right color="secondary">
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script lang="ts">
