@@ -1,12 +1,16 @@
 <template>
   <v-card>
-    <v-card-title> <span class="text-h5">Neues Produkt</span></v-card-title>
+    <v-card-title>
+      <span class="text-h5">{{
+        update ? 'Produkt ändern' : 'Neues Produkt'
+      }}</span></v-card-title
+    >
     <v-card-text>
       <v-container>
         <v-form @submit.prevent="onSubmit">
-          <v-text-field v-model="product.name" label="Name"></v-text-field>
+          <v-text-field v-model="localProduct.name" label="Name"></v-text-field>
           <v-text-field
-            v-model.number="product.count"
+            v-model.number="localProduct.count"
             label="Anzahl"
             type="number"
           ></v-text-field>
@@ -53,7 +57,9 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="primary" text @click="cancel">Abbrechen</v-btn>
-            <v-btn color="primary" depressed type="submit">Hinzufügen</v-btn>
+            <v-btn color="primary" depressed type="submit">{{
+              update ? 'Speichern' : 'Hinzufügen'
+            }}</v-btn>
           </v-card-actions>
         </v-form>
       </v-container>
@@ -68,6 +74,10 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default Vue.extend({
   props: {
+    update: {
+      type: Boolean,
+      default: false,
+    },
     product: {
       type: Object as PropType<Product>,
       default: () => {
@@ -77,6 +87,7 @@ export default Vue.extend({
   },
   data() {
     return {
+      localProduct: { ...this.product },
       dateMenu: false,
       timeMenu: false,
       date: this.product.dueDate.toISOString().substr(0, 10),
@@ -90,8 +101,8 @@ export default Vue.extend({
   methods: {
     onSubmit() {
       const newProduct: Product = {
-        ...this.product,
-        id: uuidv4(),
+        ...this.localProduct,
+        id: this.localProduct.id === '' ? uuidv4() : this.localProduct.id,
         dueDate: new Date(`${this.date}T${this.time}`),
       };
       this.$emit('newProduct', newProduct);

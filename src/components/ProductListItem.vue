@@ -12,9 +12,31 @@
         `${getDateString(product.dueDate)}`
       }}</v-list-item-subtitle>
     </v-list-item-content>
-    <v-btn icon color="secondary" class="text--lighten-1">
-      <v-icon>mdi-pencil</v-icon>
-    </v-btn>
+    <v-dialog
+      v-model="dialogOpen"
+      persistent
+      :fullscreen="$vuetify.breakpoint.xsOnly"
+      max-width="600px"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          icon
+          color="secondary"
+          class="text--lighten-1"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-pencil</v-icon>
+        </v-btn>
+      </template>
+      <product-form
+        v-if="dialogOpen"
+        :update="true"
+        :product="product"
+        @newProduct="updateProduct"
+        @cancel="closeDialog"
+      ></product-form>
+    </v-dialog>
     <v-tooltip bottom open-delay="500">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
@@ -36,13 +58,22 @@
 <script lang="ts">
 import Vue, { PropType } from 'vue';
 import { EventBus } from '@/services/EventBus';
+import ProductForm from '@/components/ProductForm.vue';
 
 export default Vue.extend({
+  components: {
+    ProductForm,
+  },
   props: {
     product: {
       type: Object as PropType<Product>,
       required: true,
     },
+  },
+  data() {
+    return {
+      dialogOpen: false,
+    };
   },
   methods: {
     getDateString(date: Date) {
@@ -55,6 +86,13 @@ export default Vue.extend({
         second: 'numeric',
         hour12: false,
       }).format(date);
+    },
+    updateProduct(updatedProduct: Product) {
+      EventBus.$emit('updateProduct', updatedProduct);
+      this.dialogOpen = false;
+    },
+    closeDialog() {
+      this.dialogOpen = false;
     },
     removeItem(product: Product) {
       EventBus.$emit('removeProduct', product);

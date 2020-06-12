@@ -81,10 +81,17 @@ export default Vue.extend({
   },
   mounted() {
     EventBus.$on('removeProduct', this.removeProduct);
+    EventBus.$on('updateProduct', this.changeProduct);
   },
   methods: {
     removeProduct(product: Product) {
       this.products = this.products.filter((p) => p.id !== product.id);
+    },
+    changeProduct(changedProduct: Product) {
+      const index = this.products.findIndex(
+        (product) => product.id === changedProduct.id
+      );
+      if (index !== -1) this.products.splice(index, 1, changedProduct);
     },
     addProduct(newProduct: Product) {
       this.products.push(newProduct);
