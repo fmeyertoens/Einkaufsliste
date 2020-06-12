@@ -2,10 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" md="6" lg="5">
-        <product-list
-          :products="products"
-          @removeItem="removeProduct"
-        ></product-list>
+        <product-list :products="products"></product-list>
       </v-col>
     </v-row>
     <v-dialog
@@ -46,6 +43,7 @@ import Vue from 'vue';
 // @ is an alias to /src
 import ProductList from '@/components/ProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
+import { EventBus } from '@/services/EventBus';
 
 export default Vue.extend({
   name: 'Home',
@@ -80,6 +78,9 @@ export default Vue.extend({
         },
       ] as Product[],
     };
+  },
+  mounted() {
+    EventBus.$on('removeProduct', this.removeProduct);
   },
   methods: {
     removeProduct(product: Product) {
