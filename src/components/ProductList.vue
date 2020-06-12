@@ -1,10 +1,12 @@
 <template>
   <v-card v-if="products.length > 0">
-    <product-list-item
-      v-for="product in products"
-      :key="product.id"
-      :product="product"
-    ></product-list-item>
+    <v-slide-y-transition group tag="v-list">
+      <product-list-item
+        v-for="product in products"
+        :key="product.id"
+        :product="product"
+      ></product-list-item>
+    </v-slide-y-transition>
   </v-card>
 </template>
 
