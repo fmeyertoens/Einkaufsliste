@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col cols="12" md="6" lg="5">
+      <v-col cols="12" sm="8" md="6" lg="5">
         <product-list :products="products"></product-list>
       </v-col>
     </v-row>
@@ -13,7 +13,7 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <v-row justify="center">
-          <v-col cols="12" md="6" lg="5" style="position: relative">
+          <v-col cols="12" sm="8" md="6" lg="5" style="position: relative">
             <v-btn
               class="mx-2"
               fab
