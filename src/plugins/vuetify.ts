@@ -1,8 +1,8 @@
 import Vue from 'vue';
-import Vuetify from 'vuetify/lib';
+import Vuetify, { VList } from 'vuetify/lib';
 import de from 'vuetify/src/locale/de';
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, { components: { VList } });
 
 export default new Vuetify({
   theme: {
