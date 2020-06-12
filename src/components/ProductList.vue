@@ -1,11 +1,11 @@
 <template>
-  <v-list>
+  <v-card v-if="products.length > 0">
     <product-list-item
       v-for="product in products"
       :key="product.id"
       :product="product"
     ></product-list-item>
-  </v-list>
+  </v-card>
 </template>
 
 <script lang="ts">
