@@ -11,6 +11,7 @@
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title
+            :class="{ 'text-decoration-line-through': product.done }"
             >{{ product.count }} {{ product.name }}</v-list-item-title
           >
           <v-list-item-subtitle>{{
