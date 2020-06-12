@@ -2,9 +2,10 @@
   <v-card v-if="products.length > 0">
     <v-slide-y-transition group tag="v-list">
       <product-list-item
-        v-for="product in products"
+        v-for="(product, i) in products"
         :key="product.id"
         :product="product"
+        :index="i"
       ></product-list-item>
     </v-slide-y-transition>
   </v-card>

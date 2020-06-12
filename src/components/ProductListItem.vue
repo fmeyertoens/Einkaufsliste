@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-divider v-if="index !== 0"></v-divider>
     <v-hover v-slot:default="{ hover }">
       <v-list-item :value="product.id">
         <v-list-item-action>
@@ -58,7 +59,6 @@
         </v-tooltip>
       </v-list-item>
     </v-hover>
-    <v-divider></v-divider>
   </div>
 </template>
 
@@ -72,6 +72,10 @@ export default Vue.extend({
     ProductForm,
   },
   props: {
+    index: {
+      type: Number,
+      required: false,
+    },
     product: {
       type: Object as PropType<Product>,
       required: true,
