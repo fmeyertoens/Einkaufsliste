@@ -1,58 +1,62 @@
 <template>
-  <v-list-item :value="product.id">
-    <v-list-item-action>
-      <v-checkbox v-model="product.done"></v-checkbox>
-    </v-list-item-action>
-    <v-list-item-content>
-      <v-list-item-title
-        :class="{ 'text-decoration-line-through': product.done }"
-        >{{ product.count }} {{ product.name }}</v-list-item-title
+  <v-hover v-slot:default="{ hover }">
+    <v-list-item :value="product.id">
+      <v-list-item-action>
+        <v-checkbox v-model="product.done"></v-checkbox>
+      </v-list-item-action>
+      <v-list-item-content>
+        <v-list-item-title
+          :class="{ 'text-decoration-line-through': product.done }"
+          >{{ product.count }} {{ product.name }}</v-list-item-title
+        >
+        <v-list-item-subtitle>{{
+          `${getDateString(product.dueDate)}`
+        }}</v-list-item-subtitle>
+      </v-list-item-content>
+      <v-dialog
+        v-model="dialogOpen"
+        persistent
+        :fullscreen="$vuetify.breakpoint.xsOnly"
+        max-width="600px"
       >
-      <v-list-item-subtitle>{{
-        `${getDateString(product.dueDate)}`
-      }}</v-list-item-subtitle>
-    </v-list-item-content>
-    <v-dialog
-      v-model="dialogOpen"
-      persistent
-      :fullscreen="$vuetify.breakpoint.xsOnly"
-      max-width="600px"
-    >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          icon
-          color="secondary"
-          class="text--lighten-1"
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-      </template>
-      <product-form
-        v-if="dialogOpen"
-        :update="true"
-        :product="product"
-        @newProduct="updateProduct"
-        @cancel="closeDialog"
-      ></product-form>
-    </v-dialog>
-    <v-tooltip bottom open-delay="500">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          icon
-          color="error"
-          class="text--lighten-2"
-          @click="removeItem(product)"
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon>mdi-delete</v-icon>
-        </v-btn>
-      </template>
-      <span>{{ product.name }} entfernen</span>
-    </v-tooltip>
-  </v-list-item>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            v-show="hover"
+            icon
+            color="secondary"
+            class="text--lighten-1"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+        </template>
+        <product-form
+          v-if="dialogOpen"
+          :update="true"
+          :product="product"
+          @newProduct="updateProduct"
+          @cancel="closeDialog"
+        ></product-form>
+      </v-dialog>
+      <v-tooltip bottom open-delay="500">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            v-show="hover"
+            icon
+            color="error"
+            class="text--lighten-2"
+            @click="removeItem(product)"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ product.name }} entfernen</span>
+      </v-tooltip>
+    </v-list-item>
+  </v-hover>
 </template>
 
 <script lang="ts">
