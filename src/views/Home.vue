@@ -1,9 +1,13 @@
 <template>
-  <div>
-    <product-list
-      :products="products"
-      @removeItem="removeProduct"
-    ></product-list>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" md="6" lg="5">
+        <product-list
+          :products="products"
+          @removeItem="removeProduct"
+        ></product-list>
+      </v-col>
+    </v-row>
     <v-dialog
       v-model="dialog"
       persistent
@@ -11,25 +15,30 @@
       max-width="600px"
     >
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          class="mx-2"
-          fab
-          dark
-          absolute
-          right
-          color="secondary"
-          v-bind="attrs"
-          v-on="on"
-        >
-          <v-icon dark>mdi-plus</v-icon>
-        </v-btn>
+        <v-row justify="center">
+          <v-col cols="12" md="6" lg="5" style="position: relative">
+            <v-btn
+              class="mx-2"
+              fab
+              dark
+              absolute
+              bottom
+              right
+              color="secondary"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon dark>mdi-plus</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
       </template>
       <product-form
         @newProduct="addProduct"
         @cancel="closeDialog"
       ></product-form>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">
