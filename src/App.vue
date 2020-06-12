@@ -6,9 +6,9 @@
       </div>
     </v-app-bar>
 
-    <v-content>
+    <v-main>
       <home />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

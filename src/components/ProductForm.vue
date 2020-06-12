@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title> <span class="headline">Neues Produkt</span></v-card-title>
+    <v-card-title> <span class="text-h5">Neues Produkt</span></v-card-title>
     <v-card-text>
       <v-container>
         <v-form @submit.prevent="onSubmit">
