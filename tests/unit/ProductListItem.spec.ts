@@ -55,6 +55,8 @@ describe('ProductListItem.vue', () => {
       },
     });
 
+    expect(wrapper.vm.$props.product.done).toBe(false);
+
     const checkbox = wrapper.find('input[type=checkbox]');
 
     checkbox.trigger('click');
