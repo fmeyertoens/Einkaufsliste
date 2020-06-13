@@ -44,6 +44,7 @@ import Vue from 'vue';
 import ProductList from '@/components/ProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
 import { EventBus } from '@/services/EventBus';
+import { getProducts } from '@/services/ProductService';
 
 export default Vue.extend({
   name: 'Home',
@@ -54,32 +55,12 @@ export default Vue.extend({
   data() {
     return {
       dialog: false,
-      products: [
-        {
-          id: '1',
-          name: 'Brötchen',
-          count: 3,
-          done: false,
-          dueDate: new Date('2020-06-11T13:29:40Z'),
-        },
-        {
-          id: '2',
-          name: 'Joghurt',
-          count: 5,
-          done: true,
-          dueDate: new Date('2020-06-11T13:29:40Z'),
-        },
-        {
-          id: '3',
-          name: 'Käse',
-          count: 1,
-          done: false,
-          dueDate: new Date('2020-06-11T13:29:40Z'),
-        },
-      ] as Product[],
+      products: [] as Product[],
     };
   },
   mounted() {
+    this.products = getProducts();
+
     EventBus.$on('removeProduct', this.removeProduct);
     EventBus.$on('updateProduct', this.changeProduct);
   },
