@@ -46,6 +46,7 @@
             <v-btn
               v-show="hover"
               icon
+              name="btnRemoveProduct"
               color="error"
               class="text--lighten-2"
               @click="removeItem(product)"
