@@ -4,6 +4,7 @@ import Vuetify from 'vuetify';
 
 // Components
 import ProductListItem from '@/components/ProductListItem.vue';
+import { EventBus } from '@/services/EventBus';
 
 // Utilities
 import { mount, createLocalVue } from '@vue/test-utils';
@@ -62,5 +63,28 @@ describe('ProductListItem.vue', () => {
     checkbox.trigger('click');
 
     expect(wrapper.vm.$props.product.done).toBe(true);
+  });
+
+  it('should emit a removeProduct event on pressing remove', () => {
+    const wrapper = mountFunction({
+      propsData: {
+        product: {
+          name: 'Apple',
+          count: 1,
+          done: true,
+        },
+      },
+    });
+    let called = false;
+
+    EventBus.$on('removeProduct', () => {
+      called = !called;
+    });
+
+    const button = wrapper.find('button[name="btnRemoveProduct"]');
+
+    button.trigger('click');
+
+    expect(called).toBe(true);
   });
 });
