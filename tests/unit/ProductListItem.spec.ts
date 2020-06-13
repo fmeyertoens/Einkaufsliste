@@ -43,4 +43,22 @@ describe('ProductListItem.vue', () => {
 
     expect(name.text()).toBe('2 Apples');
   });
+
+  it('should be marked as done when toggled once', () => {
+    const wrapper = mountFunction({
+      propsData: {
+        product: {
+          name: 'Apple',
+          count: 1,
+          done: false,
+        },
+      },
+    });
+
+    const checkbox = wrapper.find('input[type=checkbox]');
+
+    checkbox.trigger('click');
+
+    expect(wrapper.vm.$props.product.done).toBe(true);
+  });
 });
