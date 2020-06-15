@@ -18,7 +18,6 @@ const mockData: Product[] = [
     name: 'Käse',
     count: 1,
     done: false,
-    dueDate: new Date('2020-06-11T13:29:40Z'),
   },
 ];
 

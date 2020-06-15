@@ -2,6 +2,6 @@ interface Product {
   id: string;
   name: string;
   count: number;
-  dueDate: Date;
+  dueDate?: Date;
   done: boolean;
 }

@@ -23,6 +23,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="date"
+                clearable
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -43,6 +44,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="time"
+                clearable
                 prepend-icon="mdi-clock-outline"
                 readonly
                 v-bind="attrs"
@@ -90,25 +92,41 @@ export default Vue.extend({
       localProduct: { ...this.product },
       dateMenu: false,
       timeMenu: false,
-      date: this.product.dueDate.toISOString().substr(0, 10),
-      time: Intl.DateTimeFormat('de-DE', {
-        hour: 'numeric',
-        minute: 'numeric',
-        hour12: false,
-      }).format(this.product.dueDate),
+      date: this.product.dueDate
+        ? this.getDateInISOFormat(this.product.dueDate)
+        : undefined,
+      time: this.product.dueDate
+        ? Intl.DateTimeFormat('de-DE', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false,
+          }).format(this.product.dueDate)
+        : undefined,
     };
   },
   methods: {
-    onSubmit() {
+    onSubmit(): void {
+      const dueDate = new Date(`${this.date}T${this.time}`);
       const newProduct: Product = {
         ...this.localProduct,
         id: this.localProduct.id === '' ? uuidv4() : this.localProduct.id,
-        dueDate: new Date(`${this.date}T${this.time}`),
+        dueDate: this.isValidDate(dueDate) ? dueDate : undefined,
       };
       this.$emit('newProduct', newProduct);
     },
-    cancel() {
+    cancel(): void {
       this.$emit('cancel');
+    },
+    isValidDate(d: Date): boolean {
+      // https://stackoverflow.com/questions/1353684/detecting-an-invalid-date-date-instance-in-javascript
+      return d instanceof Date && !isNaN(d.getTime());
+    },
+    getDateInISOFormat(date: Date): string {
+      return `${date.getFullYear()}-${
+        date.getMonth() < 10 ? '0' : ''
+      }${date.getMonth() + 1}-${
+        date.getDate() < 10 ? '0' : ''
+      }${date.getDate()}`;
     },
   },
 });

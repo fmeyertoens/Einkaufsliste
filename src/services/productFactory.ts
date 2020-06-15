@@ -3,7 +3,7 @@ function getEmptyProduct(): Product {
     id: '',
     name: '',
     count: 0,
-    dueDate: new Date(),
+    dueDate: undefined,
     done: false,
   };
 }

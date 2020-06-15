@@ -11,7 +11,7 @@
             :class="{ 'text-decoration-line-through': product.done }"
             >{{ product.count }} {{ product.name }}</v-list-item-title
           >
-          <v-list-item-subtitle>{{
+          <v-list-item-subtitle v-if="product.dueDate">{{
             `${getDateString(product.dueDate)}`
           }}</v-list-item-subtitle>
         </v-list-item-content>
