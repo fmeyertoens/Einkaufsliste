@@ -2,7 +2,7 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="5">
-        <product-list :products="products"></product-list>
+        <product-list :products="storeState.products"></product-list>
       </v-col>
     </v-row>
     <v-dialog
@@ -44,7 +44,7 @@ import Vue from 'vue';
 import ProductList from '@/components/ProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
 import { EventBus } from '@/services/EventBus';
-import { getProducts } from '@/services/ProductService';
+import { store } from '@/services/ProductStore';
 
 export default Vue.extend({
   name: 'Home',
@@ -55,27 +55,22 @@ export default Vue.extend({
   data() {
     return {
       dialog: false,
-      products: [] as Product[],
+      storeState: store.state,
     };
   },
   mounted() {
-    this.products = getProducts();
-
     EventBus.$on('removeProduct', this.removeProduct);
     EventBus.$on('updateProduct', this.changeProduct);
   },
   methods: {
     removeProduct(product: Product) {
-      this.products = this.products.filter((p) => p.id !== product.id);
+      store.removeProduct(product);
     },
     changeProduct(changedProduct: Product) {
-      const index = this.products.findIndex(
-        (product) => product.id === changedProduct.id
-      );
-      if (index !== -1) this.products.splice(index, 1, changedProduct);
+      store.changeProduct(changedProduct);
     },
     addProduct(newProduct: Product) {
-      this.products.push(newProduct);
+      store.addProduct(newProduct);
       this.dialog = false;
     },
     closeDialog() {
