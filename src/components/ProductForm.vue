@@ -74,6 +74,12 @@ import Vue, { PropType } from 'vue';
 import { getEmptyProduct } from '@/services/productFactory';
 import { v4 as uuidv4 } from 'uuid';
 
+function getDateInISOFormat(date: Date): string {
+  return `${date.getFullYear()}-${
+    date.getMonth() < 10 ? '0' : ''
+  }${date.getMonth() + 1}-${date.getDate() < 10 ? '0' : ''}${date.getDate()}`;
+}
+
 export default Vue.extend({
   props: {
     update: {
@@ -93,7 +99,7 @@ export default Vue.extend({
       dateMenu: false,
       timeMenu: false,
       date: this.product.dueDate
-        ? this.getDateInISOFormat(this.product.dueDate)
+        ? getDateInISOFormat(this.product.dueDate)
         : undefined,
       time: this.product.dueDate
         ? Intl.DateTimeFormat('de-DE', {
@@ -120,13 +126,6 @@ export default Vue.extend({
     isValidDate(d: Date): boolean {
       // https://stackoverflow.com/questions/1353684/detecting-an-invalid-date-date-instance-in-javascript
       return d instanceof Date && !isNaN(d.getTime());
-    },
-    getDateInISOFormat(date: Date): string {
-      return `${date.getFullYear()}-${
-        date.getMonth() < 10 ? '0' : ''
-      }${date.getMonth() + 1}-${
-        date.getDate() < 10 ? '0' : ''
-      }${date.getDate()}`;
     },
   },
 });
