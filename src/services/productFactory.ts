@@ -8,4 +8,17 @@ function getEmptyProduct(): Product {
   };
 }
 
-export { getEmptyProduct };
+function createProduct(product: {
+  id: string;
+  name: string;
+  count: number;
+  done: boolean;
+  dueDate?: Date;
+}): Product {
+  return {
+    ...product,
+    dueDate: product.dueDate ? new Date(product.dueDate) : undefined,
+  };
+}
+
+export { getEmptyProduct, createProduct };

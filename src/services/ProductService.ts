@@ -1,3 +1,5 @@
+import { createProduct } from './productFactory';
+
 const mockData: Product[] = [
   {
     id: '1',
@@ -20,9 +22,22 @@ const mockData: Product[] = [
     done: false,
   },
 ];
+const LSKey = 'products';
 
 function getProducts(): Product[] {
+  const savedProductsString = localStorage.getItem(LSKey);
+  if (savedProductsString) {
+    let savedProducts: Product[] = JSON.parse(savedProductsString);
+    savedProducts = savedProducts.map((product) => {
+      return createProduct(product);
+    });
+    return savedProducts;
+  }
   return mockData;
 }
 
-export { getProducts };
+function saveProducts(products: Product[]) {
+  localStorage.setItem(LSKey, JSON.stringify(products));
+}
+
+export { getProducts, saveProducts };
