@@ -4,7 +4,10 @@
     <v-hover v-slot:default="{ hover }">
       <v-list-item :value="product.id">
         <v-list-item-action>
-          <v-checkbox v-model="product.done"></v-checkbox>
+          <v-checkbox
+            :input-value="product.done"
+            @change="toggleDoneState"
+          ></v-checkbox>
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title
@@ -108,6 +111,9 @@ export default Vue.extend({
     },
     removeItem(product: Product) {
       EventBus.$emit('removeProduct', product);
+    },
+    toggleDoneState() {
+      EventBus.$emit('updateProduct', this.product);
     },
   },
 });
