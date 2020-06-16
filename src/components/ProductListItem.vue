@@ -112,8 +112,8 @@ export default Vue.extend({
     removeItem(product: Product) {
       EventBus.$emit('removeProduct', product);
     },
-    toggleDoneState() {
-      EventBus.$emit('updateProduct', this.product);
+    toggleDoneState(done: boolean) {
+      EventBus.$emit('updateProduct', { ...this.product, done: done });
     },
   },
 });
