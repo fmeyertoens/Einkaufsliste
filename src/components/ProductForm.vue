@@ -7,12 +7,18 @@
     >
     <v-card-text>
       <v-container>
-        <v-form @submit.prevent="onSubmit">
-          <v-text-field v-model="localProduct.name" label="Name"></v-text-field>
+        <v-form @submit.prevent="onSubmit" v-model="valid" ref="form">
+          <v-text-field
+            v-model="localProduct.name"
+            label="Name"
+            required
+            :rules="productNameRules"
+          ></v-text-field>
           <v-text-field
             v-model.number="localProduct.count"
             label="Anzahl"
             type="number"
+            required
           ></v-text-field>
           <v-menu
             v-model="dateMenu"
@@ -96,6 +102,8 @@ export default Vue.extend({
   data() {
     return {
       localProduct: { ...this.product },
+      valid: true,
+      productNameRules: [(v: string) => !!v || 'Es wird ein Name benötigt'],
       dateMenu: false,
       timeMenu: false,
       date: this.product.dueDate
@@ -112,6 +120,9 @@ export default Vue.extend({
   },
   methods: {
     onSubmit(): void {
+      (this.$refs.form as Vue & { validate: () => boolean }).validate();
+      if (!this.valid) return;
+
       const dueDate = new Date(`${this.date}T${this.time}`);
       const newProduct: Product = {
         ...this.localProduct,

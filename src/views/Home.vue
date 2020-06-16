@@ -31,6 +31,7 @@
         </v-row>
       </template>
       <product-form
+        v-if="dialog"
         @newProduct="addProduct"
         @cancel="closeDialog"
       ></product-form>
