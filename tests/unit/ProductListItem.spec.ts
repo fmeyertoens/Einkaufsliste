@@ -45,7 +45,7 @@ describe('ProductListItem.vue', () => {
     expect(name.text()).toBe('2 Apples');
   });
 
-  it('should be marked as done when toggled once', () => {
+  it('should emit an updateProduct event with property done set to true when toggled once', () => {
     const wrapper = mountFunction({
       propsData: {
         product: {
@@ -55,6 +55,11 @@ describe('ProductListItem.vue', () => {
         },
       },
     });
+    let done = false;
+
+    EventBus.$on('updateProduct', (product: Product) => {
+      done = product.done;
+    });
 
     expect(wrapper.vm.$props.product.done).toBe(false);
 
@@ -62,7 +67,7 @@ describe('ProductListItem.vue', () => {
 
     checkbox.trigger('click');
 
-    expect(wrapper.vm.$props.product.done).toBe(true);
+    expect(done).toBe(true);
   });
 
   it('should emit a removeProduct event on pressing remove', () => {
