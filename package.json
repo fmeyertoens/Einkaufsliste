@@ -14,7 +14,7 @@
     "uuid": "^9.0.0",
     "vue": "^3.0.0",
     "vue-router": "^3.6.5",
-    "vuetify": "^2.6.10"
+    "vuetify": "^3.11.3"
   },
   "devDependencies": {
     "@types/jest": "^29.0.3",
