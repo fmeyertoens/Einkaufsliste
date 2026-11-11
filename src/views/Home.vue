@@ -16,15 +16,13 @@
           <v-col cols="12" sm="8" md="6" lg="5" style="position: relative">
             <v-btn
               class="mx-2"
-              fab
-              dark
-              absolute
-              bottom
-              right
+              icon
               color="secondary"
+              aria-label="Produkt hinzufügen"
+              style="position: absolute; bottom: 0; right: 0"
               v-bind="props"
             >
-              <v-icon dark>mdi-plus</v-icon>
+              <v-icon>mdi-plus</v-icon>
             </v-btn>
           </v-col>
         </v-row>
@@ -43,7 +41,7 @@ import { ref } from 'vue';
 import { useProductStore } from '@/stores/productStore';
 import ProductList from '@/components/ProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
-import { Product } from '@/types/product';
+import type { Product } from '@/types/product';
 
 const productStore = useProductStore();
 

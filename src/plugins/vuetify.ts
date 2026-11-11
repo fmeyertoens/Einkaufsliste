@@ -1,7 +1,9 @@
 import { createVuetify } from 'vuetify';
-import { VTimePicker } from 'vuetify/labs/VTimePicker';
+import { VTimePicker } from 'vuetify/components/VTimePicker';
 import 'vuetify/styles';
+import '@mdi/font/css/materialdesignicons.css';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
+import { de } from 'vuetify/locale';
 
 export default createVuetify({
   theme: {
@@ -22,6 +24,11 @@ export default createVuetify({
   },
   components: {
     VTimePicker,
+  },
+  locale: {
+    locale: 'de',
+    fallback: 'de',
+    messages: { de },
   },
   icons: {
     defaultSet: 'mdi',

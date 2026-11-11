@@ -28,11 +28,12 @@
           >
             <template #activator="{ props: activatorProps }">
               <v-btn
-                v-show="isHovering"
+                v-show="isHovering || $vuetify.display.mobile"
                 icon
                 color="secondary"
-                class="text--lighten-1 mr-2"
+                class="mr-2"
                 size="small"
+                :aria-label="`${product.name} bearbeiten`"
                 v-bind="activatorProps"
               >
                 <v-icon>mdi-pencil</v-icon>
@@ -46,15 +47,15 @@
               @cancel="closeDialog"
             ></product-form>
           </v-dialog>
-          <v-tooltip bottom open-delay="500">
+          <v-tooltip location="bottom" open-delay="500">
             <template #activator="{ props }">
               <v-btn
-                v-show="isHovering"
+                v-show="isHovering || $vuetify.display.mobile"
                 icon
                 name="btnRemoveProduct"
                 color="error"
                 size="small"
-                class="text--lighten-2"
+                :aria-label="`${product.name} entfernen`"
                 @click="handleRemoveItem(product)"
                 v-bind="props"
               >
@@ -70,10 +71,11 @@
 </template>
 
 <script setup lang="ts">
-import { PropType, ref } from 'vue';
+import { ref } from 'vue';
+import type { PropType } from 'vue';
 import { useProductStore } from '@/stores/productStore';
 import ProductForm from '@/components/ProductForm.vue';
-import { Product } from '@/types/product';
+import type { Product } from '@/types/product';
 
 const props = defineProps({
   index: {

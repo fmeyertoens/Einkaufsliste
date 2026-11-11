@@ -1,95 +1,58 @@
-// Libraries
-import Vue from 'vue';
-import Vuetify from 'vuetify';
-
-// Components
+import { beforeEach, describe, expect, it } from 'vitest';
+import { mount } from '@vue/test-utils';
+import { createPinia, setActivePinia } from 'pinia';
 import ProductListItem from '@/components/ProductListItem.vue';
-import { EventBus } from '@/services/EventBus';
+import vuetify from '@/plugins/vuetify';
+import { useProductStore } from '@/stores/productStore';
+import type { Product } from '@/types/product';
 
-// Utilities
-import { mount, createLocalVue } from '@vue/test-utils';
+const product: Product = {
+  id: '1',
+  name: 'Äpfel',
+  count: 2,
+  done: false,
+};
 
-Vue.use(Vuetify);
-const localVue = createLocalVue();
+beforeEach(() => {
+  localStorage.clear();
+  localStorage.setItem('products', JSON.stringify([product]));
+});
 
-describe('ProductListItem.vue', () => {
-  let vuetify: typeof Vuetify;
-  const mountFunction = (options: object) => {
-    return mount(ProductListItem, {
-      localVue,
-      vuetify,
-      ...options,
-    });
-  };
+function mountItem() {
+  const pinia = createPinia();
+  setActivePinia(pinia);
+  const store = useProductStore();
+  const wrapper = mount(ProductListItem, {
+    props: { product: store.products[0], index: 0 },
+    global: { plugins: [pinia, vuetify] },
+  });
+  return { wrapper, store };
+}
 
-  beforeEach(() => {
-    vuetify = new Vuetify();
+describe('ProductListItem', () => {
+  it('renders the product name and count', () => {
+    const { wrapper } = mountItem();
+
+    expect(wrapper.text()).toContain('2 Äpfel');
   });
 
-  it('should render a name and count', () => {
-    const wrapper = mountFunction({
-      propsData: {
-        product: {
-          id: '1',
-          name: 'Apples',
-          count: 2,
-          dueDate: new Date('2020-06-11T16:10:00Z'),
-        },
-      },
-    });
+  it('updates and persists the done state', async () => {
+    const { wrapper, store } = mountItem();
 
-    // expect(wrapper.html()).toMatchSnapshot();
+    await wrapper.get('input[type="checkbox"]').setValue(true);
 
-    const name = wrapper.find('.v-list-item__title');
-
-    expect(name.text()).toBe('2 Apples');
+    expect(store.products[0].done).toBe(true);
+    expect(JSON.parse(localStorage.getItem('products') || '[]')[0].done).toBe(
+      true
+    );
   });
 
-  it('should emit an updateProduct event with property done set to true when toggled once', () => {
-    const wrapper = mountFunction({
-      propsData: {
-        product: {
-          name: 'Apple',
-          count: 1,
-          done: false,
-        },
-      },
-    });
-    let done = false;
+  it('removes the product from the store', async () => {
+    const { wrapper, store } = mountItem();
 
-    EventBus.$on('updateProduct', (product: Product) => {
-      done = product.done;
-    });
+    await wrapper.get('button[name="btnRemoveProduct"]').trigger('click');
 
-    expect(wrapper.vm.$props.product.done).toBe(false);
-
-    const checkbox = wrapper.find('input[type=checkbox]');
-
-    checkbox.trigger('click');
-
-    expect(done).toBe(true);
-  });
-
-  it('should emit a removeProduct event on pressing remove', () => {
-    const wrapper = mountFunction({
-      propsData: {
-        product: {
-          name: 'Apple',
-          count: 1,
-          done: true,
-        },
-      },
-    });
-    let called = false;
-
-    EventBus.$on('removeProduct', () => {
-      called = !called;
-    });
-
-    const button = wrapper.find('button[name="btnRemoveProduct"]');
-
-    button.trigger('click');
-
-    expect(called).toBe(true);
+    expect(store.products).toEqual([]);
+    expect(JSON.parse(localStorage.getItem('products') || '[]')).toEqual([]);
   });
 });
