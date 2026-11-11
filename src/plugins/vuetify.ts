@@ -1,28 +1,31 @@
-import Vue from 'vue';
-import Vuetify, { VList } from 'vuetify/lib';
-import de from 'vuetify/src/locale/de';
+import { createVuetify } from 'vuetify';
+import { VTimePicker } from 'vuetify/labs/VTimePicker';
+import 'vuetify/styles';
+import { aliases, mdi } from 'vuetify/iconsets/mdi';
 
-Vue.use(Vuetify, { components: { VList } });
-
-export default new Vuetify({
+export default createVuetify({
   theme: {
-    options: {
-      customProperties: true,
-    },
+    defaultTheme: 'light',
     themes: {
       light: {
-        primary: '#3f51b5',
-        secondary: '#009688',
-        accent: '#ffc107',
-        error: '#f44336',
-        warning: '#ff9800',
-        info: '#03a9f4',
-        success: '#4caf50',
+        colors: {
+          primary: '#3f51b5',
+          secondary: '#009688',
+          accent: '#ffc107',
+          error: '#f44336',
+          warning: '#ff9800',
+          info: '#03a9f4',
+          success: '#4caf50',
+        },
       },
     },
   },
-  lang: {
-    locales: { de },
-    current: 'de',
+  components: {
+    VTimePicker,
+  },
+  icons: {
+    defaultSet: 'mdi',
+    aliases,
+    sets: { mdi },
   },
 });

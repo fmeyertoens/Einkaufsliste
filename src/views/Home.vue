@@ -2,16 +2,16 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="12" sm="8" md="6" lg="5">
-        <product-list :products="storeState.products"></product-list>
+        <product-list :products="productStore.products" />
       </v-col>
     </v-row>
     <v-dialog
       v-model="dialog"
       persistent
-      :fullscreen="$vuetify.breakpoint.xsOnly"
+      :fullscreen="$vuetify.display.xs"
       max-width="600px"
     >
-      <template v-slot:activator="{ on, attrs }">
+      <template #activator="{ props }">
         <v-row justify="center">
           <v-col cols="12" sm="8" md="6" lg="5" style="position: relative">
             <v-btn
@@ -22,8 +22,7 @@
               bottom
               right
               color="secondary"
-              v-bind="attrs"
-              v-on="on"
+              v-bind="props"
             >
               <v-icon dark>mdi-plus</v-icon>
             </v-btn>
@@ -39,44 +38,23 @@
   </v-container>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-// @ is an alias to /src
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useProductStore } from '@/stores/productStore';
 import ProductList from '@/components/ProductList.vue';
 import ProductForm from '@/components/ProductForm.vue';
-import { EventBus } from '@/services/EventBus';
-import { store } from '@/services/ProductStore';
+import { Product } from '@/types/product';
 
-export default Vue.extend({
-  name: 'Home',
-  components: {
-    ProductList,
-    ProductForm,
-  },
-  data() {
-    return {
-      dialog: false,
-      storeState: store.state,
-    };
-  },
-  mounted() {
-    EventBus.$on('removeProduct', this.removeProduct);
-    EventBus.$on('updateProduct', this.changeProduct);
-  },
-  methods: {
-    removeProduct(product: Product) {
-      store.removeProduct(product);
-    },
-    changeProduct(changedProduct: Product) {
-      store.changeProduct(changedProduct);
-    },
-    addProduct(newProduct: Product) {
-      store.addProduct(newProduct);
-      this.dialog = false;
-    },
-    closeDialog() {
-      this.dialog = false;
-    },
-  },
-});
+const productStore = useProductStore();
+
+const dialog = ref(false);
+
+const addProduct = (newProduct: Product) => {
+  productStore.addProduct(newProduct);
+  dialog.value = false;
+};
+
+const closeDialog = () => {
+  dialog.value = false;
+};
 </script>

@@ -11,19 +11,15 @@
   </v-card>
 </template>
 
-<script lang="ts">
-import Vue, { PropType } from 'vue';
+<script setup lang="ts">
+import { PropType } from 'vue';
 import ProductListItem from '@/components/ProductListItem.vue';
+import { Product } from '@/types/product';
 
-export default Vue.extend({
-  components: {
-    ProductListItem,
-  },
-  props: {
-    products: {
-      type: Array as PropType<Product[]>,
-      required: true,
-    },
+defineProps({
+  products: {
+    type: Array as PropType<Product[]>,
+    required: true,
   },
 });
 </script>

@@ -1,3 +1,5 @@
+import { Product } from '@/types/product';
+
 function getEmptyProduct(): Product {
   return {
     id: '',
